@@ -11,6 +11,9 @@ date_default_timezone_set(env('APP_TIMEZONE', 'UTC'));
 /*
 |--------------------------------------------------------------------------
 | Create The Application
+
+composer dump-autoload
+composer install --no-scripts
 |--------------------------------------------------------------------------
 |
 | Here we will load the environment and create the application instance
@@ -23,7 +26,7 @@ $app = new Laravel\Lumen\Application(
     dirname(__DIR__)
 );
 
-// $app->withFacades();
+$app->withFacades();
 
 // $app->withEloquent();
 

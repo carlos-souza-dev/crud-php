@@ -13,6 +13,10 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    return $router->app->version();
-});
+$router->get('/', "homeController@index");
+$router->post('/', "homeController@store");
+$router->get('/adicionar', "homeController@register");
+$router->get('/editar', "homeController@edit");
+$router->post('/editar', "homeController@update");
+$router->post('/deletar', "homeController@distroy");
+
