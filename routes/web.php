@@ -1,5 +1,4 @@
 <?php
-
 /** @var \Laravel\Lumen\Routing\Router $router */
 
 /*
@@ -13,10 +12,11 @@
 |
 */
 
-$router->get('/', "homeController@index");
+$router->get('/', "clienteController@index");
 $router->post('/', "homeController@store");
 $router->get('/adicionar', "homeController@register");
 $router->get('/editar', "homeController@edit");
 $router->post('/editar', "homeController@update");
 $router->post('/deletar', "homeController@distroy");
 
+?>

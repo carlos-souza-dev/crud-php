@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use DB;
 
-class HomeController extends Controller
+class ClienteController extends Controller
 {
     public function index() {
 
