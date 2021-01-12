@@ -1,37 +1,51 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use DB;
 
 class HomeController extends Controller
 {
     public function index() {
 
-        $result = DB::select("SELECT * FROM clientes");
+        $query = DB::select("SELECT * FROM clientes");
 
-        return view("index", ['clientes' => $result]);
+        return view("index", ['clientes' => $query]);
     }
 
     public function store() {
 
         // SESSÃO
-        // session_start();
-        // CONEXÃO
-        require_once __DIR__.'/../../../resources/views/php_action/db_connect.php';
-
+        session_start();
+        // INSERT
         if(isset($_POST['btn-cadastrar'])){
-            $nome = mysqli_escape_string($connect, $_POST['nome']);
-            $sobrenome = mysqli_escape_string($connect, $_POST['sobrenome']);
-            $email = mysqli_escape_string($connect, $_POST['email']);
-            $idade = mysqli_escape_string($connect, $_POST['idade']);
+            $error = [];
+            $nome = filter_input(INPUT_POST, 'nome', FILTER_SANITIZE_SPECIAL_CHARS);
+            if(!$nome){
+                $error = "O nome é obrigatório.";
+            }
+            $sobrenome = filter_input(INPUT_POST, 'sobrenome', FILTER_SANITIZE_SPECIAL_CHARS);
+            if(!$sobrenome){
+                $error = "O sobrenome é obrigatório.";
+            }
+            $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+            if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+                $error = "E-mail inválido";
+            }
+            if(strlen($email) > 30){
+                $error = "E-mail deve conter no máximo 20 caracteres.";
+            }
+            $idade = filter_input(INPUT_POST, 'idade', FILTER_SANITIZE_NUMBER_INT);
+            if(!filter_var($idade, FILTER_VALIDATE_INT)){
+                $error = "A idade precisa ser um inteiro";
+            }
 
-            $sql = "INSERT INTO clientes (nome, sobrenome, email, idade) VALUES ('$nome', '$sobrenome', '$email', '$idade')";
-
-            if(mysqli_query($connect, $sql)){
-                return view("index", ['mensagem'=>'Cadastro realizado com sucesso!']);
+            if(!$error) {
+                DB::insert("INSERT INTO clientes (nome, sobrenome, email, idade) VALUES ('$nome', '$sobrenome', '$email', '$idade')");
+                $_SESSION['mensagem'] = 'Cadastro realizado com sucesso!';
+                return redirect("/");
             } else {
-                return view("index", ['mensagem'=>'Erro ao cadastrar!']);
+                $_SESSION['mensagem'] = $error;
+                return redirect("/");
             }
             
         }
@@ -42,46 +56,75 @@ class HomeController extends Controller
     }
 
     public function edit() {
-        return view("editar");
+        
+        if(isset($_GET['id'])){
+            $id = $_GET['id'];
+
+            $query = DB::select("SELECT * FROM clientes WHERE id = '$id'");
+            return view("editar", ["cliente" => $query]);
+        } else {
+            $_SESSION['mensagem'] = "Não foi possível editar esse cliente.";
+            return redirect("/");
+        }
     }
 
     public function update() {
         // SESSÃO
         session_start();
         // CONEXÃO
-        require_once __DIR__.'/../../../resources/views/php_action/db_connect.php';
-
         if(isset($_POST['btn-editar'])){
-            $id = mysqli_escape_string($connect, $_POST['id']);
-            $nome = mysqli_escape_string($connect, $_POST['nome']);
-            $sobrenome = mysqli_escape_string($connect, $_POST['sobrenome']);
-            $email = mysqli_escape_string($connect, $_POST['email']);
-            $idade = mysqli_escape_string($connect, $_POST['idade']);
+            $error = [];
+            $id = filter_input(INPUT_POST, 'id');
 
-            $sql = "UPDATE clientes SET nome = '$nome', sobrenome = '$sobrenome', email = '$email', idade = '$idade' WHERE id = '$id'";
+            $nome = filter_input(INPUT_POST, 'nome', FILTER_SANITIZE_SPECIAL_CHARS);
+            $sobrenome = filter_input(INPUT_POST, 'sobrenome', FILTER_SANITIZE_SPECIAL_CHARS);
+            $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+            $idade = filter_input(INPUT_POST, 'idade', FILTER_SANITIZE_NUMBER_INT);
+            
+            if(!empty($nome) && !empty($sobrenome) && !empty($email) && !empty($idade)) {
 
-            if(mysqli_query($connect, $sql)){
-                $_SESSION['mensagem'] = "Atualizado com com sucesso!";
-                return redirect('/');
+                if(!$nome){
+                    $error = "O nome é obrigatório.";
+                }
+                if(!$sobrenome){
+                    $error = "O sobrenome é obrigatório.";
+                }
+                if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+                    $error = "E-mail inválido";
+                }
+                if(strlen($email) > 30){
+                    $error = "E-mail deve conter no máximo 30 caracteres.";
+                }
+                if(!filter_var($idade, FILTER_VALIDATE_INT)){
+                    $error = "A idade precisa ser um inteiro";
+                }
             } else {
-                $_SESSION['mensagem'] = "Erro ao atualizar";
-                return redirect('/');
+                $_SESSION['mensagem'] = "Preencha todos os campos.";
+                return redirect("/");
             }
-        }
+
+            if(!$error) {
+                $query = DB::update("UPDATE clientes SET nome = '$nome', sobrenome = '$sobrenome', email = '$email', idade = '$idade' WHERE id = '$id'");
+                $_SESSION['mensagem'] = "Atualizado com com sucesso!";
+                return redirect("/");
+            } else {
+                $_SESSION['mensagem'] = $error;
+                return redirect("/");
+            }
+            
+        }   
     }
 
     public function distroy() {
         // SESSÃO
         session_start();
         // CONEXÃO
-        require_once __DIR__.'/../../../resources/views/php_action/db_connect.php';
-
         if(isset($_POST['btn-deletar'])){
-            $id = mysqli_escape_string($connect, $_POST['id']);
+            $id = filter_input(INPUT_POST, 'id');
 
-            $sql = "DELETE FROM clientes WHERE id = '$id'";
+            $delete = DB::delete("DELETE FROM clientes WHERE id = '$id'");
 
-            if(mysqli_query($connect, $sql)){
+            if($delete){
                 $_SESSION['mensagem'] = "Deletado com com sucesso!";
                 return redirect('/');
             } else {
