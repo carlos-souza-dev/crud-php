@@ -12,11 +12,11 @@
 |
 */
 
-$router->get('/', "clienteController@index");
-$router->post('/', "homeController@store");
-$router->get('/adicionar', "homeController@register");
-$router->get('/editar', "homeController@edit");
-$router->post('/editar', "homeController@update");
-$router->post('/deletar', "homeController@distroy");
+$router->get('/', "ClienteController@index");
+$router->post('/', "ClienteController@store");
+$router->get('/adicionar', "ClienteController@register");
+$router->get('/editar', "ClienteController@edit");
+$router->post('/editar', "ClienteController@update");
+$router->post('/deletar', "ClienteController@distroy");
 
 ?>

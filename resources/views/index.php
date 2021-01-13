@@ -65,6 +65,7 @@ include_once 'includes/mensagem.php';
     </table>
     <br>
     <a href="/adicionar" class="btn"> Adicionar cliente</a>
+    <a href="/api/fornecedor" class="btn"> Acessar API</a>
 
 <?php
 include_once 'includes/footer.php';
