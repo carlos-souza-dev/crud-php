@@ -5,6 +5,7 @@ use App\Models\Fornecedor;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Validator;
+use App\Models\ValidationFornecedor;
 use DB;
 
 class ApiController extends Controller {
@@ -32,12 +33,9 @@ class ApiController extends Controller {
 
     public function create(Request $request) {
 
-        $validator = Validator::make($request->all(),
-            [
-                'nome'=>'required | max: 45',
-                'cnpj'=>'required | max: 10',
-                'email'=>'required|email|unique:fornecedor| max: 30' 
-            ]
+        $validator = Validator::make(
+            $request->all(),
+            ValidationFornecedor::RULE_CREATE
         );
         
         if($validator->fails()){
@@ -70,12 +68,9 @@ class ApiController extends Controller {
 
     public function update(Request $request, $id) {
 
-        $validator = Validator::make($request->all(),
-            [
-                'nome'=>'required | max: 45',
-                'cnpj'=>'required | max: 10',
-                'email'=>'required|email|unique:fornecedor| max: 30' 
-            ]
+        $validator = Validator::make(
+            $request->all(),
+            ValidationFornecedor::RULE_CREATE
         );
         
         if($validator->fails()){
