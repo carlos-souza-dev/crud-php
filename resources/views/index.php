@@ -15,6 +15,7 @@ include_once 'includes/mensagem.php';
           <th>Sobrenome</th>
           <th>Email</th>
           <th>Idade:</th>
+          <th>Apartamento:</th>
         </tr>
       </thead>
       <tbody>
@@ -27,7 +28,8 @@ include_once 'includes/mensagem.php';
              <td><?php echo $morador->sobrenome ?></td>
              <td><?php echo $morador->email ?></td>
              <td><?php echo $morador->idade ?></td>
-             <td><a href="/editar?id=<?php echo $morador->id; ?>" class="btn-floating orange"><i class="material-icons">edit</i></a></td>
+             <td><?php echo $morador->bloco. ' - '.$morador->apartamento ?></td>
+             <td><a href="/morador/editar?id=<?php echo $morador->id; ?>" class="btn-floating orange"><i class="material-icons">edit</i></a></td>
              <td><a href="#modal<?php echo $morador->id; ?>" class="btn-floating red modal-trigger"><i class="material-icons">delete</i></a></td>
 
              <!-- Modal Structure -->
@@ -38,7 +40,7 @@ include_once 'includes/mensagem.php';
                 </div>
                 <div class="modal-footer">
 
-                  <form action="/deletar" method="POST">
+                  <form action="/morador/deletar" method="POST">
                     <input type="hidden" name="id" value="<?php echo $morador->id; ?>">
                     <button type="submit" name="btn-deletar" class="btn red">Sim, quero deletar</button>
                     <a href="#!" class="btn modal-action modal-close waves-effect waves-green btn-flat gray">Cancelar</a>
@@ -57,6 +59,7 @@ include_once 'includes/mensagem.php';
              <td style="text-align: center;">-</td>
              <td style="text-align: center;">-</td>
              <td style="text-align: center;">-</td>
+             <td style="text-align: center;">-</td>
           </tr>
       <?php 
         }      
@@ -64,7 +67,8 @@ include_once 'includes/mensagem.php';
       </tbody>
     </table>
     <br>
-    <a href="/adicionar" class="btn"> Adicionar morador</a>
+    <a href="/morador/adicionar" class="btn"> Adicionar morador</a>
+    <a href="/classificado/adicionar" class="btn purple"> Adicionar classificado</a>
     <a href="/api/fornecedor" class="btn"> Acessar API</a>
 
 <?php

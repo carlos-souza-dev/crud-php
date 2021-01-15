@@ -1,9 +1,6 @@
 <?php
 
-namespace App\Http\Controller;
-// /** @var \Laravel\Lumen\Routing\Router $router */
-
-use DB;
+/** @var \Laravel\Lumen\Routing\Router $router */
 
 $router->group(['prefix' => 'classificado'], function ($router) {
     $router->get('/', 'ClassificadoController@index');

@@ -4,10 +4,9 @@ namespace App\Models\Validation;
 
 class ClassificadoValidation {
     const RULE_CREATE = [
-        'nome' => 'required | max:10',
-        'sobrenome' => 'required | max:10',
-        'email' => 'required |email|unique:morador| max:30',
-        'idade' => 'required | max:2'
+        'morador_id' => 'required | max:2',
+        'titulo_classificado'  => 'required | max:30',
+        'descricao_classificado' => 'required | max:50'
     ];
 }
 ?>

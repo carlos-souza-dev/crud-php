@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Morador;
+use App\Models\Classificado;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Validator;
@@ -10,9 +10,9 @@ use App\Models\Validation\ClassificadoValidation;
 class ClassificadoController extends Controller {
 
     public function index () {
-        $moradores = Morador::all();
+        $classificados = Classificado::all();
 
-        return $moradores;
+        return $classificados;
     }
 
     public function register () {
@@ -27,10 +27,10 @@ class ClassificadoController extends Controller {
         );
 
         if($validation->fails()){
-            return response()->json(['Error'=>'Não foi possível cadastrar esse morador.']);
+            return response()->json(['Error'=>'Não foi possível cadastrar esse classificado.']);
         } else {
-            $morador = Morador::create($request->all());
-            return ['Sucesso', $morador];
+            $classificado = Classificado::create($request->all());
+            return ['Sucesso', $classificado];
         }
 
     }
@@ -43,22 +43,20 @@ class ClassificadoController extends Controller {
         );
 
         if($validation->fails()){
-            return response()->json(['Error'=>'Não foi possível atualizar esse morador.']);
+            return response()->json(['Error'=>'Não foi possível atualizar esse classificado.']);
         } else {
-            $data = Morador::find($id);
-            $update = Morador::find($id)->update($request->all());
+            $data = Classificado::find($id);
+            $update = Classificado::find($id)->update($request->all());
             $change = array(
                     "Antigos"=>array(
-                        "nome"=>$data->nome, 
-                        "sobrenome"=>$data->sobrenome, 
-                        "email"=>$data->email, 
-                        "idade"=>$data->idade
+                        "morador_id"=>$data->morador_id, 
+                        "titulo_classificadodo"=>$data->titulo_classificado, 
+                        "descricao_classificado"=>$data->descricao_classificado,
                     ),
                     "Novos" => array(
-                        "nome"=>$request->nome, 
-                        "sobrenome"=>$request->sobrenome, 
-                        "email"=>$request->email, 
-                        "idade"=>$request->idade
+                        "morador_id"=>$request->morador_id, 
+                        "titulo_classificado"=>$request->titulo_classificado, 
+                        "descricao_classificado"=>$request->descricao_classificado, 
                     )
                 );
             return json_encode($change);   
@@ -66,13 +64,13 @@ class ClassificadoController extends Controller {
     }
 
     public function distroy ($id) {
-        $morador = Morador::find($id);
+        $classificado = Classificado::find($id);
         
-        if($morador){
-            Morador::find($id)->delete();
-            return ["Mensagem"=>"Morador exluído com sucesso."];
+        if($classificado){
+            Classificado::find($id)->delete();
+            return ["Mensagem"=>"Classificado exluído com sucesso."];
         } else {
-            return ["Mensagem"=>"Morador não encontrado."];
+            return ["Mensagem"=>"Classificado não encontrado."];
         };
     }
     
