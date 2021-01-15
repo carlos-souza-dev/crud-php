@@ -10,7 +10,8 @@ class Morador extends Model {
         'nome',
         'sobrenome',
         'email',
-        'idade'
+        'idade',
+        'id_apto'
     ];
 
     protected $data = [
