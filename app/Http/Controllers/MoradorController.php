@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 use DB;
 
-class ClienteController extends Controller
+class MoradorController extends Controller
 {
     public function index() {
 
-        $query = DB::select("SELECT * FROM clientes");
+        $morador = DB::select("SELECT * FROM morador");
 
-        return view("index", ['clientes' => $query]);
+        return view("index", ['moradores' => $morador]);
     }
 
     public function store() {
@@ -40,7 +40,7 @@ class ClienteController extends Controller
             }
 
             if(!$error) {
-                DB::insert("INSERT INTO clientes (nome, sobrenome, email, idade) VALUES ('$nome', '$sobrenome', '$email', '$idade')");
+                DB::insert("INSERT INTO morador (nome, sobrenome, email, idade) VALUES ('$nome', '$sobrenome', '$email', '$idade')");
                 $_SESSION['mensagem'] = 'Cadastro realizado com sucesso!';
                 return redirect("/");
             } else {
@@ -60,10 +60,10 @@ class ClienteController extends Controller
         if(isset($_GET['id'])){
             $id = $_GET['id'];
 
-            $query = DB::select("SELECT * FROM clientes WHERE id = '$id'");
-            return view("editar", ["cliente" => $query]);
+            $morador = DB::select("SELECT * FROM morador WHERE id = '$id'");
+            return view("editar", ["morador" => $morador]);
         } else {
-            $_SESSION['mensagem'] = "Não foi possível editar esse cliente.";
+            $_SESSION['mensagem'] = "Não foi possível editar esse morado.";
             return redirect("/");
         }
     }
@@ -104,7 +104,7 @@ class ClienteController extends Controller
             }
 
             if(!$error) {
-                $query = DB::update("UPDATE clientes SET nome = '$nome', sobrenome = '$sobrenome', email = '$email', idade = '$idade' WHERE id = '$id'");
+                $morador = DB::update("UPDATE morador SET nome = '$nome', sobrenome = '$sobrenome', email = '$email', idade = '$idade' WHERE id = '$id'");
                 $_SESSION['mensagem'] = "Atualizado com com sucesso!";
                 return redirect("/");
             } else {
@@ -122,7 +122,7 @@ class ClienteController extends Controller
         if(isset($_POST['btn-deletar'])){
             $id = filter_input(INPUT_POST, 'id');
 
-            $delete = DB::delete("DELETE FROM clientes WHERE id = '$id'");
+            $morador = DB::delete("DELETE FROM morador WHERE id = '$id'");
 
             if($delete){
                 $_SESSION['mensagem'] = "Deletado com com sucesso!";

@@ -12,11 +12,13 @@
 |
 */
 
-$router->get('/', "ClienteController@index");
-$router->post('/', "ClienteController@store");
-$router->get('/adicionar', "ClienteController@register");
-$router->get('/editar', "ClienteController@edit");
-$router->post('/editar', "ClienteController@update");
-$router->post('/deletar', "ClienteController@distroy");
+$router->group(['prefix' => 'morador'], function ($router){
+    $router->get('/', "MoradorController@index");
+    $router->post('/', "MoradorController@store");
+    $router->get('/adicionar', "MoradorController@register");
+    $router->get('/editar', "MoradorController@edit");
+    $router->post('/editar', "MoradorController@update");
+    $router->post('/deletar', "MoradorController@distroy");
+})
 
 ?>

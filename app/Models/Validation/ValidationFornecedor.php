@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Validation;
 
 class ValidationFornecedor {
     const RULE_CREATE = [

@@ -3,13 +3,14 @@
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
-class Fornecedor extends Model 
-{
-    protected $table = 'fornecedor';
+class Morador extends Model {
+
+    protected $table = 'morador';
     protected $fillable = [
         'nome',
-        'cnpj',
-        'email'
+        'sobrenome',
+        'email',
+        'idade'
     ];
 
     protected $data = [
@@ -18,3 +19,5 @@ class Fornecedor extends Model
 
     public $timestamps = false;
 }
+
+?>

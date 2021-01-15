@@ -5,8 +5,7 @@ use App\Models\Fornecedor;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Validator;
-use App\Models\ValidationFornecedor;
-use DB;
+use App\Models\Validation\ValidationFornecedor;
 
 class ApiController extends Controller {
 
