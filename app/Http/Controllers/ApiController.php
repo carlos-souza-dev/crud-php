@@ -74,12 +74,11 @@ class ApiController extends Controller {
         
         if($validator->fails()){
             return response()->json(['error'=>'Erro ao validar os dados, tente novamente.'], Response::HTTP_INTERNAL_SERVER_ERROR);
-            
         } else {
             try{
-                $fornecedor = $this->model->find($id)
+                $this->model->find($id)
                     ->update($request->all());
-                return response()->json($fornecedor, Response::HTTP_OK);
+                return response()->json(['Success' => 'Dados atualizados com sucesso!'], Response::HTTP_OK);
             }catch (QueryException $exception){
                 return response()->json(['error'=>'Erro de conexão com o banco de dados'], Response::HTTP_INTERNAL_SERVER_ERROR);
             }
