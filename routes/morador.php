@@ -16,8 +16,8 @@ $router->get('/', 'MoradorController@home');
 $router->group(['prefix' => 'morador'], function ($router){
     $router->get('/', "MoradorController@index");
     $router->get('/adicionar', "MoradorController@register");
+    $router->post('/adicionar', "MoradorController@store");
     $router->get('/editar', "MoradorController@edit");
-    $router->post('/', "MoradorController@store");
     $router->post('/editar', "MoradorController@update");
     $router->post('/deletar', "MoradorController@distroy");
 })

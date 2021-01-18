@@ -12,8 +12,8 @@ class MoradorController extends Controller
     public function index() {
 
         $moradores = DB::select("SELECT m.id, m.nome, m.sobrenome, m.email, m.idade, a.bloco, a.apartamento, m.id_apto FROM morador m INNER JOIN apartamento a WHERE a.id = m.id_apto");
-
-        return view("index", ['moradores' => $moradores]);
+        $classificados = DB::select("SELECT * FROM classificado");
+        return view("index", ['moradores' => $moradores, 'classificados' => $classificados]);
     }
 
     public function store() {
@@ -156,7 +156,7 @@ class MoradorController extends Controller
             $morador = DB::delete("DELETE FROM morador WHERE id = '$id'");
             $apartamento = DB::delete("DELETE FROM apartamento WHERE id = $apto");
 
-            $_SESSION['mensagem'] = "Deletado com com sucesso!";
+            $_SESSION['mensagem'] = "Deletado com sucesso!";
             return redirect('/');
             if($morador){
             } else {
