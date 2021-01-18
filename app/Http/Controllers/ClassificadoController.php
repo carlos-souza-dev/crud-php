@@ -13,7 +13,7 @@ class ClassificadoController extends Controller {
     public function index () {
 
         $classificados = Classificado::all();
-        return $classificados;
+        return view('classificados', ['classificados' => $classificados]);
 
     }
 
@@ -26,10 +26,10 @@ class ClassificadoController extends Controller {
         session_start();
 
         // VALIDAÇÃO
-        $validation = Validator::make(
-            $request->all(),
-            ClassificadoValidation::RULE_CREATE
-        );
+        // $validation = Validator::make(
+        //     $request->all(),
+        //     ClassificadoValidation::RULE_CREATE
+        // );
 
         if($validation->fails()){
             $_SESSION['mensagem'] = "Não foi possível cadastrar esse classificado.";

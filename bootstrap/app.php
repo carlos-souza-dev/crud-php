@@ -113,7 +113,7 @@ $app->router->group([
     'namespace' => 'App\Http\Controllers',
 ], function ($router) {
     require __DIR__.'/../routes/morador.php';
-    require __dir__.'/../routes/classificado.php';
+    require __DIR__.'/../routes/classificado.php';
     require __DIR__.'/../routes/api.php';
 });
 

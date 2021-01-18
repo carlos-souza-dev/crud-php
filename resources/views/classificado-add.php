@@ -26,7 +26,7 @@ include_once 'includes/mensagem.php';
         </div>
 
         <button type="submit" name="btn-cadastrar" class="btn"> Cadastrar </button>
-        <a href="/" class="btn green"> Home </a>
+        <a href="/classificado" class="btn green"> Home </a>
       </div>
     </form>
   </div>
