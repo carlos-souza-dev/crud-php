@@ -6,7 +6,7 @@ use DB;
 class MoradorController extends Controller
 {
     public function home() {
-        return redirect('/morador');
+        return view("index");
     }
 
     public function index() {
