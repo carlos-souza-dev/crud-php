@@ -1,43 +1,37 @@
 <?php 
 // HEADER
 include_once 'includes/header.php';
+// Mensagem
+include_once 'includes/mensagem.php';
 ?>
+
 <div class="row">
   <div class="col s12 m6 push-m3">
-  <h3 class="light">Editar Morador</h3> 
-    <form action="/morador/editar" method="POST">
+  <h3 class="light">Editar Classificado</h3> 
     <?php
-        if($morador) {
-          foreach($morador as $row) {
+        if($classificado) {
     ?>
-        <input type="hidden" name="id" value="<?php echo $row->id; ?>">
-        <div class="input-field col s12">
-            <input type="text" name="nome" id="nome" value="<?php echo $row->nome; ?>">
-            <label for="nome"> Nome </label>
+    <form action="/classificado/editar/<?php echo $classificado->id; ?>" method="POST">
+        <div class="input-field col s2">
+            <input type="text" name="id_morador" id="id_morador" value="<?php echo $classificado->id_morador ?>">
+            <label for="id_morador"> Morador </label>
         </div>
 
-        <div class="input-field col s12">
-            <input type="text" name="sobrenome" id="sobrenome"  value="<?php echo $row->sobrenome; ?>">
-            <label for="sobrenome"> Sobrenome </label>
+        <div class="input-field col s3">
+            <input type="text" name="titulo_classificado" id="titulo_classificado" value="<?php echo $classificado->titulo_classificado ?>">
+            <label for="titulo_classificado"> Titulo </label>
         </div>
 
-        <div class="input-field col s12">
-            <input type="text" name="email" id="email"  value="<?php echo $row->email; ?>">
-            <label for="email"> E-mail </label>
+        <div class="input-field col s7">
+            <input type="text" name="descricao_classificado" id="descricao_classificado" value="<?php echo $classificado->descricao_classificado ?>">
+            <label for="descricao_classificado"> Descrição </label>
         </div>
-
-        <div class="input-field col s12">
-            <input type="text" name="idade" id="idade"  value="<?php echo $row->idade; ?>">
-            <label for="idade"> Idade </label>
-        </div>
-
-        <button type="submit" name="btn-editar" class="btn"> Atualizar </button>
-        <a href="/" class="btn green"> Lista de Moradores </a>
+        <button type="submit" class="btn"> Atualizar </button>
+        <a href="/" class="btn green"> Home </a>
     </form>
   </div>
 </div>
 <?php
         }
-    }
-include_once 'includes/footer.php';
+    include_once 'includes/footer.php';
 ?>

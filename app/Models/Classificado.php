@@ -7,7 +7,7 @@ class Classificado extends Model {
 
     protected $table = 'classificado';
     protected $fillable = [
-        'morador_id',
+        'id_morador',
         'titulo_classificado',
         'descricao_classificado'
     ];

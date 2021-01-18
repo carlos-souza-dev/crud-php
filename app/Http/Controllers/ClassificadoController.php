@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Classificado;
+use App\Models\Morador;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Validator;
@@ -10,70 +11,101 @@ use App\Models\Validation\ClassificadoValidation;
 class ClassificadoController extends Controller {
 
     public function index () {
-        $classificados = Classificado::all();
 
+        $classificados = Classificado::all();
         return $classificados;
+
     }
 
     public function register () {
-        return ["Registrar"];
+        return view('classificado-add');
     }
 
     public function store (Request $request) {
+        // SESSÃO
+        session_start();
 
+        // VALIDAÇÃO
         $validation = Validator::make(
             $request->all(),
             ClassificadoValidation::RULE_CREATE
         );
 
         if($validation->fails()){
-            return response()->json(['Error'=>'Não foi possível cadastrar esse classificado.']);
+            $_SESSION['mensagem'] = "Não foi possível cadastrar esse classificado.";
+            return redirect('/morador');
         } else {
-            $classificado = Classificado::create($request->all());
-            return ['Sucesso', $classificado];
+
+            $morador = Morador::find($request->id_morador);
+            
+            if(isset($morador)){
+
+                $_SESSION['mensagem'] = "Cadastro realizado com sucesso!";
+                $classificado = Classificado::create($request->all());
+                return redirect('/morador');
+
+            } else {
+
+                $_SESSION['mensagem'] = "Este morador não existe!";
+                return redirect("/classificado/adicionar");
+            }
         }
+    }
+
+    public function edit ($id) {
+
+        $classificado = Classificado::find($id);
+        return view('classificado-editar', ['classificado' => $classificado]);
 
     }
 
     public function update ($id, Request $request) {
+        // SESSÃO
+        session_start();
 
+        // VALIDAÇÃO
         $validation = Validator::make(
             $request->all(),
             ClassificadoValidation::RULE_CREATE
         );
 
         if($validation->fails()){
-            return response()->json(['Error'=>'Não foi possível atualizar esse classificado.']);
+
+            $_SESSION['mensagem'] = "Não foi possível atualizar esse classificado.";
+            return redirect('/morador');
+
         } else {
-            $data = Classificado::find($id);
-            $update = Classificado::find($id)->update($request->all());
-            $change = array(
-                    "Antigos"=>array(
-                        "morador_id"=>$data->morador_id, 
-                        "titulo_classificadodo"=>$data->titulo_classificado, 
-                        "descricao_classificado"=>$data->descricao_classificado,
-                    ),
-                    "Novos" => array(
-                        "morador_id"=>$request->morador_id, 
-                        "titulo_classificado"=>$request->titulo_classificado, 
-                        "descricao_classificado"=>$request->descricao_classificado, 
-                    )
-                );
-            return json_encode($change);   
+
+            $morador = Morador::find($request->id_morador);
+            
+            if(isset($morador)){
+
+                $_SESSION['mensagem'] = 'Classificado atualizado com sucesso!';
+                $update = Classificado::find($id)->update($request->all());
+                return redirect('/morador');
+
+            } else {
+
+                $_SESSION['mensagem'] = "O morador $request->id_morador não existe!";
+                return redirect("/classificado/editar/$id");
+
+            }   
         }
     }
 
     public function distroy ($id) {
+        // SESSÃO
         $classificado = Classificado::find($id);
         
         if($classificado){
             Classificado::find($id)->delete();
-            return ["Mensagem"=>"Classificado exluído com sucesso."];
+            $_SESSION["mensagem"] = "Classificado exluído com sucesso!";
+            return redirect('/morador');
         } else {
-            return ["Mensagem"=>"Classificado não encontrado."];
+            $_SESSION["mensagem"] = "Classificado não encontrado!";
+            return redirect('/morador');
         };
-    }
-    
+    }    
 };
 
 ?>
