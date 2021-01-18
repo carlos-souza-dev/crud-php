@@ -4,7 +4,7 @@
   if(isset($_SESSION['mensagem'])) { ?>
     <script>
       window.onload = function() {
-        M.toast({html: "<?php echo $_SESSION['mensagem']; ?>" });
+        M.toast({html: "<?php echo $_SESSION['mensagem']; ?>", classes: 'rounded' });
       };
     </script>
 
@@ -13,7 +13,7 @@
     if(isset($mensagem)) { ?>
       <script>
         window.onload = function() {
-          M.toast({html: "<?php echo $mensagem; ?>" });
+          M.toast({html: "<?php echo $mensagem; ?>", classes: 'rounded' });
         };
       </script>
 <?php
