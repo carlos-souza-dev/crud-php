@@ -38,6 +38,14 @@ class MoradorController extends Controller
             if(strlen($email) > 30){
                 $error = "E-mail deve conter no máximo 20 caracteres.";
             }
+            $pass = filter_input(INPUT_POST, 'pass');
+            if(strlen($pass) < 5){
+                $error = "Sua senha deve ter no minimo 5 caracteres.";
+            }
+            $confirmpass = filter_input(INPUT_POST, 'confirmpass');
+            if(!isset($confirmpass)){
+                $error = "É preciso confirmar a senha.";
+            }
             $idade = filter_input(INPUT_POST, 'idade', FILTER_SANITIZE_NUMBER_INT);
             if(!filter_var($idade, FILTER_VALIDATE_INT)){
                 $error = "A idade precisa ser um inteiro";
@@ -52,16 +60,28 @@ class MoradorController extends Controller
             }
 
             if(!$error) {
-                if(($bloco == 'Chile' || 'Mexico') && $apto < 100){
-                    DB::insert("INSERT INTO apartamento (bloco, apartamento) VALUES ('$bloco', '$apto')");
-                    $id = DB::getPdo()->lastInsertId();
-                    DB::insert("INSERT INTO morador (nome, sobrenome, email, idade, id_apto) VALUES ('$nome', '$sobrenome', '$email', '$idade', '$id')");
-                    return redirect("/");
-                    $_SESSION['mensagem'] = 'Cadastro realizado com sucesso!';
+
+                if($pass == $confirmpass) {
+                    
+                    if(($bloco == 'Chile' || 'Mexico') && $apto < 100){
+
+                        $safepass = password_hash($pass, PASSWORD_DEFAULT);
+                        DB::insert("INSERT INTO apartamento (bloco, apartamento) VALUES ('$bloco', '$apto')");
+                        $id = DB::getPdo()->lastInsertId();
+                        DB::insert("INSERT INTO morador (nome, sobrenome, email ,senha , idade, id_apto) VALUES ('$nome', '$sobrenome', '$email', '$safepass', '$idade', '$id')");
+                        $_SESSION['mensagem'] = 'Cadastro realizado com sucesso!';
+                        return redirect("/");
+                    } else {
+                        $_SESSION['mensagem'] = 'Bloco ou Apartamento inválido!';
+                        return redirect("/");
+                    }
+
                 } else {
-                    $_SESSION['mensagem'] = 'Bloco ou Apartamento inválido!';
-                    return redirect("/");
+
                 }
+
+                $_SESSION['mensagem'] = "As senhas são diferentes.";
+                return view("/morador/adicionar");
             } else {
                 $_SESSION['mensagem'] = $error;
                 return redirect("/");

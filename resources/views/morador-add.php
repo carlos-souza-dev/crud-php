@@ -20,6 +20,16 @@ include_once 'includes/header.php';
                 <input type="text" name="email" id="email">
                 <label for="email"> E-mail </label>
             </div>
+
+            <div class="input-field col s6">
+                <input type="password" name="pass" id="pass">
+                <label for="pass"> Senha </label>
+            </div>
+            <div class="input-field col s6">
+                <input type="password" name="confirmpass" id="confirmpass">
+                <label for="confirmpass"> Confirmar Senha </label>
+            </div>
+
             <div class="input-field col s6">
                 <input type="text" name="idade" id="idade">
                 <label for="idade"> Idade </label>
@@ -36,7 +46,7 @@ include_once 'includes/header.php';
             </div>
         </div>
 
-        <button type="submit" name="btn-cadastrar" class="btn"> Cadastrar </button>
+        <button type="submit" name="btn-cadastrar" class="btn"> Salvar </button>
         <a href="/" class="btn green"> Home </a>
     </form>
   </div>
