@@ -1,8 +1,13 @@
 <?php 
-// HEADER
-include_once 'includes/header.php';
-// MENSAGEM
+if(!isset($_SESSION['logged'])) {
+    session_start();
+    echo "Sessão iniciada.";
+}
+// Mensagem
 include_once 'includes/mensagem.php';
+// HEADER -->
+include_once 'includes/header.php';
+
 ?>
 
     <div class="container">

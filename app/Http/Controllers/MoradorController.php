@@ -9,7 +9,7 @@ class MoradorController extends Controller
 
         $moradores = DB::select("SELECT m.id, m.nome, m.sobrenome, m.email, m.idade, a.bloco, a.apartamento, m.id_apto FROM morador m INNER JOIN apartamento a WHERE a.id = m.id_apto");
         $classificados = DB::select("SELECT * FROM classificado");
-        return view("index", ['moradores' => $moradores, 'classificados' => $classificados]);
+        return view("morador", ['moradores' => $moradores, 'classificados' => $classificados]);
     }
 
     public function edit() {

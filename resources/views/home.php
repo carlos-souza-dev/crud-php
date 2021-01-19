@@ -1,16 +1,14 @@
 <?php
+if(!isset($_SESSION['logged'])) {
+    session_start();
+    echo "Sessão iniciada.";
+}
 // HEADER -->
 include_once 'includes/header.php';
-// Mensagem
-include_once 'includes/mensagem.php';
+// Menu
+include_once 'includes/menu.php';
 ?>
 
-<div class="col s12 m6 push-m3">
-  <p>Olá, <?php echo $_SESSION['user']; ?></p>
-</div>
-<div class="col s12 m6 push-m3">
-  <a  href="/sair" class="waves-effect waves-light btn right"><i class="material-icons left">exit_to_app</i>Sair</a>
-</div>
 <div class="row">
   <div class="col s12 m6 push-m3">
   <h3 class="light">Moradores</h3> 
@@ -72,9 +70,6 @@ include_once 'includes/mensagem.php';
       ?>
       </tbody>
     </table>
-  <a href="/morador/cadastrar" class="btn purple"><i class="material-icons left">add</i>Morador</a>
-  <a href="/morador" class="btn"> Morador </a>
-  <a href="/api/fornecedor" class="btn"> Acessar API</a>
   </div>
 </div>
 
@@ -130,8 +125,6 @@ include_once 'includes/mensagem.php';
       </tbody>
     </table>
     <a href="/classificado/adicionar" class="btn purple"><i class="material-icons left">add</i>Classificado</a>
-    <a href="/classificado" class="btn"> Classificados </a>
-    <a href="/api/fornecedor" class="btn"> Acessar API</a>
   </div>
 </div>
 

@@ -1,8 +1,13 @@
 <?php
+if(!isset($_SESSION['logged'])) {
+  session_start();
+  echo "Sessão iniciada.";
+}
 // HEADER -->
 include_once 'includes/header.php';
-// Mensagem
-include_once 'includes/mensagem.php';
+// Menu
+include_once 'includes/menu.php';
+
 ?>
 
 <div class="row">

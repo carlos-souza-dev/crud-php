@@ -5,4 +5,9 @@
         M.AutoInit();
     </script>
     </body>
+    <?php 
+        if(isset($_SESSION['mensagem'])){
+            unset($_SESSION['mensagem']);
+        }
+    ?>
 </html>

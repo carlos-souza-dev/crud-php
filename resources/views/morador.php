@@ -1,9 +1,16 @@
 <?php
+if(!isset($_SESSION['logged'])) {
+  session_start();
+  echo "Sessão iniciada.";
+}
 // HEADER -->
 include_once 'includes/header.php';
-// Mensagem
-include_once 'includes/mensagem.php';
+// Menu
+include_once 'includes/menu.php';
+
 ?>
+
+
 
 <div class="row">
   <div class="col s12 m6 push-m3">
@@ -66,10 +73,6 @@ include_once 'includes/mensagem.php';
       ?>
       </tbody>
     </table>
-
-    <a href="/classificado" class="btn"> Classificados </a>
-    <a href="/morador/cadastrar" class="btn purple"><i class="material-icons left">add</i>Morador</a>
-    <a href="/api/fornecedor" class="btn"> Acessar API</a>
   </div>
 </div>
 

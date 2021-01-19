@@ -1,7 +1,17 @@
 <?php 
-// HEADER
+if(!isset($_SESSION['logged'])) {
+    session_start();
+    echo "Sessão iniciada.";
+}
+// HEADER -->
 include_once 'includes/header.php';
+// Menu
+include_once 'includes/menu.php';
+
 ?>
+
+
+
 <div class="row">
   <div class="col s12 m6 push-m3">
   <h3 class="light">Editar Morador</h3> 

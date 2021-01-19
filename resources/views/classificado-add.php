@@ -1,9 +1,15 @@
 <?php 
-// Header
+if(!isset($_SESSION['logged'])) {
+  session_start();
+  echo "Sessão iniciada.";
+}
+// HEADER -->
 include_once 'includes/header.php';
-// Mensagem
-include_once 'includes/mensagem.php';
+// Menu
+include_once 'includes/menu.php';
+
 ?>
+
 
 <div class="row">
   <div class="col s12 m6 push-m3">
@@ -26,7 +32,7 @@ include_once 'includes/mensagem.php';
         </div>
 
         <button type="submit" name="btn-cadastrar" class="btn"> Cadastrar </button>
-        <a href="/classificado" class="btn green"> Home </a>
+        <a href="/home" class="btn green"> Home </a>
       </div>
     </form>
   </div>

@@ -7,17 +7,22 @@ use Illuminate\Support\Facades\Hash;
 class IndexController extends Controller
 {
     
-    public function login () {    
+    public function login () {
+    
         return view("index");
     }
 
     public function logout () {
     
+        session_start();
         session_unset();
-        return view('index', ['mensagem' => 'Sessão finalizada!']);
+        session_destroy();
+        $mensagem = 'Sessão finalizada!';
+        return view('index', ['mensagem' => $mensagem]);
     }
 
     public function register () {
+       
         return view("morador-add");
     }
 
@@ -93,6 +98,7 @@ class IndexController extends Controller
     }
 
     public function getHome () {
+        
         $moradores = DB::select("SELECT m.id, m.nome, m.sobrenome, m.email, m.idade, a.bloco, a.apartamento, m.id_apto FROM morador m INNER JOIN apartamento a WHERE a.id = m.id_apto");
         $classificados = DB::select("SELECT * FROM classificado");
         return view("home", ['moradores' => $moradores, 'classificados' => $classificados]);
@@ -100,6 +106,7 @@ class IndexController extends Controller
 
     public function home () {
 
+        session_start();
          if(isset($_POST['btn-logar'])){
              $error = [];             
              $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
@@ -120,7 +127,11 @@ class IndexController extends Controller
                     $_SESSION['user'] = $user[0]->nome; 
                     $_SESSION['mensagem'] = "Bem vindo, ".$user[0]->nome; 
                     
-                    return redirect('/home');
+                    
+                    $moradores = DB::select("SELECT m.id, m.nome, m.sobrenome, m.email, m.idade, a.bloco, a.apartamento, m.id_apto FROM morador m INNER JOIN apartamento a WHERE a.id = m.id_apto");
+                    $classificados = DB::select("SELECT * FROM classificado");
+                    return view("home", ['moradores' => $moradores, 'classificados' => $classificados]);
+                
                 } else {
                 
                     $_SESSION['mensagem'] = 'Usuário ou senha inválido.'; 
