@@ -1,16 +1,10 @@
 <?php 
-if(!isset($_SESSION['logged'])) {
-    session_start();
-    echo "Sessão iniciada.";
-}
 // HEADER -->
 include_once 'includes/header.php';
 // Menu
 include_once 'includes/menu.php';
 
 ?>
-
-
 
 <div class="row">
   <div class="col s12 m6 push-m3">
@@ -55,7 +49,7 @@ include_once 'includes/menu.php';
         </div>
 
         <button type="submit" name="btn-editar" class="btn"> Atualizar </button>
-        <a href="/" class="btn green"> Lista de Moradores </a>
+        <a href="/home" class="btn green"> Home </a>
     </form>
   </div>
 </div>

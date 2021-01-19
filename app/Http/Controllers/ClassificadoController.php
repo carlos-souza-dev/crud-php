@@ -11,6 +11,12 @@ use App\Models\Validation\ClassificadoValidation;
 class ClassificadoController extends Controller {
 
     public function index () {
+        //  SESSÃO
+        session_start();
+
+        if(!isset($_SESSION['logged'])) {
+            return view('index');     
+        }
 
         $classificados = Classificado::all();
         return view('classificados', ['classificados' => $classificados]);
@@ -18,12 +24,21 @@ class ClassificadoController extends Controller {
     }
 
     public function register () {
+        //  SESSÃO
+        session_start();
+
+        if(!isset($_SESSION['logged'])) {
+            return view('index');     
+        }
         return view('classificado-add');
     }
 
     public function store (Request $request) {
         // SESSÃO
-        session_start();
+        if(!isset($_SESSION['logged'])) {
+            session_start();
+            echo "Sessão iniciada.";
+        }
 
         // VALIDAÇÃO
         $validation = Validator::make(
@@ -36,10 +51,7 @@ class ClassificadoController extends Controller {
             return redirect('/classificado');
         } else {
 
-            $morador = Morador::find($request->id_morador);
-            
-            if(isset($morador)){
-
+            if(isset($_SESSION['id'])){
                 $_SESSION['mensagem'] = "Cadastro realizado com sucesso!";
                 $classificado = Classificado::create($request->all());
                 return redirect('/classificado');
@@ -53,6 +65,12 @@ class ClassificadoController extends Controller {
     }
 
     public function edit ($id) {
+        //  SESSÃO
+        session_start();
+
+        if(!isset($_SESSION['logged'])) {
+            return view('index');     
+        }
 
         $classificado = Classificado::find($id);
         return view('classificado-editar', ['classificado' => $classificado]);

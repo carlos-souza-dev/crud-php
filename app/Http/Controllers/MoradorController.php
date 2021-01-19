@@ -6,6 +6,12 @@ use DB;
 class MoradorController extends Controller
 {
     public function index() {
+        //  SESSÃO
+        session_start();
+
+        if(!isset($_SESSION['logged'])) {
+            return view('index');     
+        }
 
         $moradores = DB::select("SELECT m.id, m.nome, m.sobrenome, m.email, m.idade, a.bloco, a.apartamento, m.id_apto FROM morador m INNER JOIN apartamento a WHERE a.id = m.id_apto");
         $classificados = DB::select("SELECT * FROM classificado");
@@ -13,15 +19,26 @@ class MoradorController extends Controller
     }
 
     public function edit() {
-        
+        //  SESSÃO
+        session_start();
+
+        if(!isset($_SESSION['logged'])) {
+            return view('index');     
+        }
+
         if(isset($_GET['id'])){
             $id = $_GET['id'];
+
+        if($_SESSION['id'] == $id) {
+        $_SESSION['mensagem'] = "Você não pode editar esse morador.";
+            return view('/home');     
+        }
 
             $morador = DB::select("SELECT m.id, m.nome, m.sobrenome, m.email, m.idade,  m.id_apto, a.bloco, a.apartamento FROM morador m INNER JOIN apartamento a WHERE a.id = m.id_apto AND m.id = '$id'");
             return view("morador-editar", ["morador" => $morador]);
         } else {
-            $_SESSION['mensagem'] = "Não foi possível editar esse morado.";
-            return redirect("/");
+            $_SESSION['mensagem'] = "Não foi possível editar esse morador.";
+            return redirect("/morador");
         }
     }
 
@@ -65,18 +82,19 @@ class MoradorController extends Controller
                     $error = "O apartamento precisa ser um inteiro";
                 }
             } else {
-                $_SESSION['mensagem'] = "Preencha todos os campos.";
-                return redirect("/");
+                $_SESSION['mensagem'] = "Erro - Preencha todos os campos.";
+                $morador = DB::select("SELECT m.id, m.nome, m.sobrenome, m.email, m.idade,  m.id_apto, a.bloco, a.apartamento FROM morador m INNER JOIN apartamento a WHERE a.id = m.id_apto AND m.id = '$id'");
+                return view("morador-editar", ['morador' => $morador]);
             }
 
             if(!$error) {
                 $morador = DB::update("UPDATE morador SET nome = '$nome', sobrenome = '$sobrenome', email = '$email', idade = '$idade' WHERE id = '$id'");
                 $apartamento = DB::update("UPDATE apartamento SET bloco = '$bloco', apartamento ='$apto' WHERE id = '$id_apto'");
                 $_SESSION['mensagem'] = "Atualizado com com sucesso!";
-                return redirect("/");
+                return redirect("/home");
             } else {
                 $_SESSION['mensagem'] = $error;
-                return redirect("/");
+                return redirect("/morador/editar");
             }
             
         }   
@@ -84,23 +102,33 @@ class MoradorController extends Controller
 
     public function distroy() {
         // SESSÃO
-        session_start();
         // CONEXÃO
         if(isset($_POST['btn-deletar'])){
             $id = filter_input(INPUT_POST, 'id');
 
-            $apto = DB::select("SELECT id_apto FROM morador WHERE id = '$id'");
-            $apto = $apto[0]->id_apto;
-            $morador = DB::delete("DELETE FROM morador WHERE id = '$id'");
-            $apartamento = DB::delete("DELETE FROM apartamento WHERE id = $apto");
+            session_start();
+            if($_SESSION['id'] == $id){
+                session_unset();
+                session_destroy();
 
-            $_SESSION['mensagem'] = "Deletado com sucesso!";
-            return redirect('/');
-            if($morador){
-            } else {
-                $_SESSION['mensagem'] = "Erro ao deletar.";
+                $apto = DB::select("SELECT id_apto FROM morador WHERE id = '$id'");
+                $apto = $apto[0]->id_apto;
+                $morador = DB::delete("DELETE FROM classificado WHERE id_morador = '$id'");
+                $morador = DB::delete("DELETE FROM morador WHERE id = '$id'");
+                $apartamento = DB::delete("DELETE FROM apartamento WHERE id = $apto");
+    
+                $_SESSION['mensagem'] = "Deletado com sucesso!";
                 return redirect('/');
+                if($morador){
+                } else {
+                    $_SESSION['mensagem'] = "Erro ao deletar.";
+                    return redirect('/home');
+                }
+            } else {
+                $_SESSION['mensagem'] = "Erro - Você não pode deletar este morador.";
+                return redirect('/home');
             }
+
         }
     }
 }

@@ -1,8 +1,4 @@
 <?php 
-if(!isset($_SESSION['logged'])) {
-    session_start();
-    echo "Sessão iniciada.";
-}
 // HEADER -->
 include_once 'includes/header.php';
 // Menu

@@ -1,6 +1,4 @@
 <?php 
-// SESSÃO 
-// session_start();
   if(isset($_SESSION['mensagem'])) { ?>
     <script>
       window.onload = function() {
@@ -17,6 +15,5 @@
       </script>
 <?php
     }
-  }
-  // session_destroy();
+  } 
 ?>

@@ -1,8 +1,4 @@
 <?php 
-if(!isset($_SESSION['logged'])) {
-    session_start();
-    echo "Sessão iniciada.";
-}
 // Mensagem
 include_once 'includes/mensagem.php';
 // HEADER -->

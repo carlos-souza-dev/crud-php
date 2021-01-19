@@ -17,8 +17,8 @@ class IndexController extends Controller
         session_start();
         session_unset();
         session_destroy();
-        $mensagem = 'Sessão finalizada!';
-        return view('index', ['mensagem' => $mensagem]);
+        $_SESSION['mensagem'] = "Sessão finalizada!";
+        return view('index');
     }
 
     public function register () {
@@ -98,6 +98,12 @@ class IndexController extends Controller
     }
 
     public function getHome () {
+        //  SESSÃO
+        session_start();
+
+        if(!isset($_SESSION['logged'])) {
+            return view('index');     
+        }
         
         $moradores = DB::select("SELECT m.id, m.nome, m.sobrenome, m.email, m.idade, a.bloco, a.apartamento, m.id_apto FROM morador m INNER JOIN apartamento a WHERE a.id = m.id_apto");
         $classificados = DB::select("SELECT * FROM classificado");
