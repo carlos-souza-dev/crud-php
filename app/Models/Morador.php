@@ -10,6 +10,7 @@ class Morador extends Model {
         'nome',
         'sobrenome',
         'email',
+        'senha',
         'idade',
         'id_apto'
     ];

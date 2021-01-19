@@ -11,12 +11,9 @@
 | and give it the Closure to call when that URI is requested.
 |
 */
-$router->get('/', 'MoradorController@home');
 
 $router->group(['prefix' => 'morador'], function ($router){
     $router->get('/', "MoradorController@index");
-    $router->get('/adicionar', "MoradorController@register");
-    $router->post('/adicionar', "MoradorController@store");
     $router->get('/editar', "MoradorController@edit");
     $router->post('/editar', "MoradorController@update");
     $router->post('/deletar', "MoradorController@distroy");

@@ -26,14 +26,14 @@ class ClassificadoController extends Controller {
         session_start();
 
         // VALIDAÇÃO
-        // $validation = Validator::make(
-        //     $request->all(),
-        //     ClassificadoValidation::RULE_CREATE
-        // );
+        $validation = Validator::make(
+            $request->all(),
+            ClassificadoValidation::RULE_CREATE
+        );
 
         if($validation->fails()){
             $_SESSION['mensagem'] = "Não foi possível cadastrar esse classificado.";
-            return redirect('/morador');
+            return redirect('/classificado');
         } else {
 
             $morador = Morador::find($request->id_morador);
@@ -42,7 +42,7 @@ class ClassificadoController extends Controller {
 
                 $_SESSION['mensagem'] = "Cadastro realizado com sucesso!";
                 $classificado = Classificado::create($request->all());
-                return redirect('/morador');
+                return redirect('/classificado');
 
             } else {
 
@@ -95,15 +95,16 @@ class ClassificadoController extends Controller {
 
     public function distroy ($id) {
         // SESSÃO
+        session_start();
         $classificado = Classificado::find($id);
         
         if($classificado){
             Classificado::find($id)->delete();
-            $_SESSION["mensagem"] = "Classificado exluído com sucesso!";
-            return redirect('/morador');
+            $_SESSION["mensagem"] = "Classificado excluído com sucesso!";
+            return redirect('/classificado');
         } else {
             $_SESSION["mensagem"] = "Classificado não encontrado!";
-            return redirect('/morador');
+            return redirect('/classificado');
         };
     }    
 };

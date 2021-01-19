@@ -4,7 +4,7 @@ include_once 'includes/header.php';
 <div class="row">
   <div class="col s12 m6 push-m3">
   <h3 class="light">Novo Morador</h3> 
-    <form action="/morador/adicionar" method="POST">
+    <form action="/cadastrar" method="POST">
         <div class="row">
             <div class="input-field col s12">
                 <input type="text" name="nome" id="nome">
@@ -47,7 +47,7 @@ include_once 'includes/header.php';
         </div>
 
         <button type="submit" name="btn-cadastrar" class="btn"> Salvar </button>
-        <a href="/" class="btn green"> Home </a>
+        <a href="/" class="btn red"> Voltar </a>
     </form>
   </div>
 </div>

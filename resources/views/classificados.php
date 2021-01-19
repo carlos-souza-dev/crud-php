@@ -17,9 +17,8 @@ include_once 'includes/mensagem.php';
         <div class="row s12 m7">
           <div class="card">
             <div class="card-content">
-              <span class="card-title">Card Title</span>
-              <p>I am a very simple card. I am good at containing small bits of information.
-              I am convenient because I require little markup to use effectively.</p>
+              <span class="card-title"><?php echo $classificado->titulo_classificado; ?></span>
+              <p><?php echo $classificado->descricao_classificado; ?></p>
             </div>
             <div class="card-action">
               <a href="/morador/editar?id=<?php echo $classificado->id; ?>" class="btn-floating orange"><i class="material-icons">edit</i></a>
@@ -65,8 +64,8 @@ include_once 'includes/mensagem.php';
       ?>
   
   <a href="/classificado/adicionar" class="btn purple"><i class="material-icons left">add</i>Classificado</a>
-  <a href="/classificado" class="btn"> Classificados </a>
   <a href="/morador" class="btn"> Morador </a>
+  <a href="/home" class="btn"> Home </a>
   <a href="/api/fornecedor" class="btn"> Acessar API</a>
   </div>
 </div>

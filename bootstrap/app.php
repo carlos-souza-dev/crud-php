@@ -112,6 +112,7 @@ $app->configure('app');
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
 ], function ($router) {
+    require __DIR__.'/../routes/index.php';
     require __DIR__.'/../routes/morador.php';
     require __DIR__.'/../routes/classificado.php';
     require __DIR__.'/../routes/api.php';
