@@ -116,6 +116,8 @@ $app->router->group([
     require __DIR__.'/../routes/morador.php';
     require __DIR__.'/../routes/classificado.php';
     require __DIR__.'/../routes/api.php';
+    require __DIR__.'/../routes/apiNotebook.php';
+    require __DIR__.'/../routes/apiSmartphone.php';
 });
 
 return $app;

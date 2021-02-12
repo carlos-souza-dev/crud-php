@@ -1,27 +1,27 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Fornecedor;
+use App\Models\Smartphone;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Validator;
-use App\Models\Validation\ValidationFornecedor;
+use App\Models\Validation\ValidationSmartphone;
 
-class ApiController extends Controller {
+class ApiSmartphone extends Controller {
 
     private $model;
 
-    public function __construct(Fornecedor $fornecedor){
-        $this->model = $fornecedor;
+    public function __construct(Smartphone $smartphone){
+        $this->model = $smartphone;
     }
 
     public function list () {        
         
-        $fornecedores = $this->model->all();
+        $smartphones = $this->model->all();
 
         try{
-            if(count($fornecedores)){
-                return response()->json($fornecedores, Response::HTTP_OK);
+            if(count($smartphones)){
+                return response()->json($smartphones, Response::HTTP_OK);
             } else {
                 return response()->json([], Response::HTTP_OK);
             }
@@ -34,7 +34,7 @@ class ApiController extends Controller {
 
         $validator = Validator::make(
             $request->all(),
-            ValidationFornecedor::RULE_CREATE
+            ValidationSmartphone::RULE_CREATE
         );
         
         if($validator->fails()){
@@ -42,8 +42,8 @@ class ApiController extends Controller {
             
         } else {
             try{
-                $fornecedor = $this->model->create($request->all());
-                return response()->json($fornecedor, Response::HTTP_CREATED);
+                $smartphone = $this->model->create($request->all());
+                return response()->json($smartphone, Response::HTTP_CREATED);
             }catch (QueryException $exception){
                 return response()->json(['error'=>'Erro de conexão com o banco de dados'], Response::HTTP_INTERNAL_SERVER_ERROR);
             }
@@ -52,11 +52,11 @@ class ApiController extends Controller {
 
     public function search ($id) {
 
-        $fornecedor = $this->model->find($id);
+        $smartphone = $this->model->find($id);
 
         try{
-            if(isset($fornecedor)){
-                return response()->json($fornecedor, Response::HTTP_OK);
+            if(isset($smartphone)){
+                return response()->json($smartphone, Response::HTTP_OK);
             } else {
                 return response()->json(null, Response::HTTP_OK);
             }
@@ -70,7 +70,7 @@ class ApiController extends Controller {
 
         $validator = Validator::make(
             $request->all(),
-            ValidationFornecedor::RULE_CREATE
+            ValidationSmartphone::RULE_CREATE
         );
         
         if($validator->fails()){
@@ -87,11 +87,16 @@ class ApiController extends Controller {
     }
 
     public function delete($id) {
-        $fornecedor = $this->model->find($id)
-            ->delete();
 
+        $smartphone = $this->model->find($id);
+        
         try{
-            return response()->json(null, Response::HTTP_OK);
+            if($smartphone){
+                $this->model->find($id)
+                ->delete();
+                $deletado = [$smartphone, ['Item'=>'Deletado']];
+                return response()->json($deletado, Response::HTTP_OK);
+            }
         }catch (QueryException $exception){
             return response()->json(['error'=>'Erro de conexão com o banco de dados'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
