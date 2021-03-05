@@ -29,13 +29,14 @@ class MoradorController extends Controller
         if(isset($_GET['id'])){
             $id = $_GET['id'];
 
-        if($_SESSION['id'] == $id) {
-        $_SESSION['mensagem'] = "Você não pode editar esse morador.";
-            return view('/home');     
-        }
+            if(!$_SESSION['id'] == $id) {
+                $_SESSION['mensagem'] = "Você não pode editar esse morador.";
+                return view('/home');     
+            } else {
+                $morador = DB::select("SELECT m.id, m.nome, m.sobrenome, m.email, m.idade,  m.id_apto, a.bloco, a.apartamento FROM morador m INNER JOIN apartamento a WHERE a.id = m.id_apto AND m.id = '$id'");
+                return view("morador-editar", ["morador" => $morador]);
+            }
 
-            $morador = DB::select("SELECT m.id, m.nome, m.sobrenome, m.email, m.idade,  m.id_apto, a.bloco, a.apartamento FROM morador m INNER JOIN apartamento a WHERE a.id = m.id_apto AND m.id = '$id'");
-            return view("morador-editar", ["morador" => $morador]);
         } else {
             $_SESSION['mensagem'] = "Não foi possível editar esse morador.";
             return redirect("/morador");
